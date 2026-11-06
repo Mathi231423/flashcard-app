@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SessionQueue, type Card, type Deck } from './sessionQueue';
 
 const DEFAULT_DECKS: Deck[] = [
@@ -28,7 +28,7 @@ function checkAnswerTolerant(input: string, target: string): boolean {
 
 async function fetchDeckFromGemini(promptText: string, apiKey: string): Promise<string> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30000); // 30s Timeout
+  const timer = setTimeout(() => controller.abort(), 30000);
 
   try {
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey.trim()}`, {
@@ -94,8 +94,27 @@ export default function App() {
   const [checkResult, setCheckResult] = useState<'correct' | 'wrong' | null>(null);
   const [showOnlyIcon, setShowOnlyIcon] = useState(false);
 
-  // Aktives Mikrofon-Ziel
+  // Aktives Mikrofon & Instanz-Cleanup
   const [listeningTarget, setListeningTarget] = useState<string | null>(null);
+  const activeRecognitionRef = useRef<any>(null);
+
+  const stopActiveRecognition = () => {
+    if (activeRecognitionRef.current) {
+      try {
+        activeRecognitionRef.current.abort();
+      } catch {
+        // Ignorieren falls bereits inaktiv
+      }
+      activeRecognitionRef.current = null;
+    }
+    setListeningTarget(null);
+  };
+
+  useEffect(() => {
+    return () => {
+      stopActiveRecognition();
+    };
+  }, [view]);
 
   useEffect(() => {
     localStorage.setItem('fc_decks', JSON.stringify(decks));
@@ -116,33 +135,53 @@ export default function App() {
   const activeDeck = decks.find((d) => d.id === activeDeckId);
   const deckCards = cards.filter((c) => c.deckId === activeDeckId);
 
-  const listenToSpeech = (onResult: (text: string) => void, lang: string, targetId: string) => {
+  const listenToSpeech = (
+    onResult: (text: string) => void,
+    lang: string,
+    targetId: string,
+    continuousMode: boolean = false
+  ) => {
+    if (listeningTarget === targetId) {
+      stopActiveRecognition();
+      return;
+    }
+
+    stopActiveRecognition();
+
     const SpeechRecognitionAPI = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognitionAPI) {
-      alert('Spracherkennung wird in diesem Browser nicht unterstützt. Bitte Chrome nutzen.');
+      alert('Spracherkennung wird in diesem Browser nicht unterstützt.');
       return;
     }
 
     const recognition = new SpeechRecognitionAPI();
+    activeRecognitionRef.current = recognition;
+
     recognition.lang = lang;
     recognition.interimResults = true;
-    recognition.continuous = false;
+    recognition.continuous = continuousMode;
 
-    recognition.onstart = () => setListeningTarget(targetId);
-    recognition.onend = () => setListeningTarget(null);
+    recognition.onstart = () => {
+      setListeningTarget(targetId);
+    };
+
+    recognition.onend = () => {
+      if (activeRecognitionRef.current === recognition) {
+        activeRecognitionRef.current = null;
+        setListeningTarget(null);
+      }
+    };
 
     recognition.onerror = (event: any) => {
-      setListeningTarget(null);
+      stopActiveRecognition();
       if (event.error === 'not-allowed') {
-        alert('Mikrofon blockiert! Bitte Berechtigung in der Browser-Adressleiste freigeben.');
-      } else if (event.error !== 'no-speech') {
-        alert('Sprachfehler: ' + event.error);
+        alert('Mikrofon blockiert! Bitte Berechtigung in den Browsereinstellungen freigeben.');
       }
     };
 
     recognition.onresult = (event: any) => {
       const text = Array.from(event.results)
-        .map((r: any) => r[0].transcript)
+        .map((r: any) => r[0]?.transcript || '')
         .join('');
       onResult(text);
     };
@@ -150,7 +189,7 @@ export default function App() {
     try {
       recognition.start();
     } catch {
-      setListeningTarget(null);
+      stopActiveRecognition();
     }
   };
 
@@ -387,7 +426,6 @@ export default function App() {
         <div>
           <h2 style={{ marginTop: 0, fontSize: '22px' }}>Meine Decks</h2>
 
-          {/* Manuelles Deck erstellen */}
           <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input
               type="text"
@@ -401,7 +439,6 @@ export default function App() {
             </button>
           </form>
 
-          {/* KI-Deck Generator: Nur sichtbar wenn KI aktiviert ist */}
           {aiEnabled && (
             <form onSubmit={handleGenerateDeck} style={{ background: '#1e293b', padding: '12px', borderRadius: '12px', marginBottom: '12px', border: '1px solid #334155', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div style={{ fontSize: '13px', fontWeight: 600, color: '#38bdf8' }}>✨ Deck per KI erstellen (gemini-3.8-flash)</div>
@@ -416,10 +453,10 @@ export default function App() {
                 />
                 <button
                   type="button"
-                  onClick={() => listenToSpeech((text) => setAiPrompt(text), 'de-DE', 'aiPrompt')}
+                  onClick={() => listenToSpeech((text) => setAiPrompt(text), 'de-DE', 'aiPrompt', true)}
                   disabled={isGenerating}
                   style={{ padding: '0 14px', borderRadius: '8px', border: 'none', background: listeningTarget === 'aiPrompt' ? '#ef4444' : '#334155', color: '#fff', fontSize: '18px', cursor: 'pointer' }}
-                  title="Thema auf Deutsch einsprechen"
+                  title="Thema auf Deutsch einsprechen (Klick zum Stoppen)"
                 >
                   🎤
                 </button>
@@ -434,7 +471,6 @@ export default function App() {
             </form>
           )}
 
-          {/* JSON Importer */}
           <div style={{ marginBottom: '20px' }}>
             <button
               onClick={() => setShowImporter(!showImporter)}
@@ -460,7 +496,6 @@ export default function App() {
             )}
           </div>
 
-          {/* Deck-Liste */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {decks.map((deck) => {
               const count = cards.filter((c) => c.deckId === deck.id).length;
@@ -583,7 +618,7 @@ export default function App() {
               <div key={c.id} style={{ background: '#1e293b', padding: '10px 12px', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px' }}>
                 <div>
                   <div><strong>{c.icon} {c.frontText}</strong> → <span style={{ color: '#38bdf8' }}>{c.backText}</span></div>
-                  <div style={{ fontSize: '11px', color: '#64748b' }}>Level: {c.level} • Gesamtfehler: {c.failCountTotal}</div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>Level: {c.level} | Gesamtfehler: {c.failCountTotal}</div>
                 </div>
                 <button onClick={() => handleDeleteCard(c.id)} style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '16px' }}>
                   ✕
@@ -610,7 +645,7 @@ export default function App() {
             <>
               <div style={{ background: '#1e293b', borderRadius: '16px', minHeight: '190px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px', textAlign: 'center', border: '2px solid #334155' }}>
                 <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '12px' }}>
-                  Level {currentCard.level} • Fehler: {currentCard.failCountTotal} • Folge-Fehler: {currentCard.consecutiveFails}
+                  Level: {currentCard.level} | Gesamtfehler: {currentCard.failCountTotal} | Folge-Fehler: {currentCard.consecutiveFails}
                 </div>
 
                 {showOnlyIcon && currentCard.icon ? (
