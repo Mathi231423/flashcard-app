@@ -443,19 +443,14 @@ export default function App() {
         </div>
       )}
 
-      {view === 'decks' && (
+{view === 'decks' && (
         <div>
-          {/* Titel mit Biene frei links oben und zwei Capybaras */}
-          <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
+          {/* Titel mit Biene links und sitzendem Capybara rechts */}
+          <div style={{ position: 'relative', textAlign: 'center', marginBottom: '22px' }}>
             <img 
               src="/decorations/bee.svg" 
               alt="" 
               style={{ width: '22px', height: '22px', position: 'absolute', left: '10px', top: '-14px', pointerEvents: 'none' }} 
-            />
-            <img 
-              src="/decorations/capybara-sleep.svg" 
-              alt="" 
-              style={{ width: '38px', position: 'absolute', left: '36px', bottom: '-2px', pointerEvents: 'none' }} 
             />
             <h2 style={{ margin: 0, fontSize: '26px', fontWeight: 700 }}>Meine Decks</h2>
             <img 
@@ -465,28 +460,30 @@ export default function App() {
             />
           </div>
 
-          {/* Manuelles Deck erstellen */}
-          <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px', marginBottom: '22px' }}>
-            <input
-              type="text"
-              value={newDeckTitle}
-              onChange={(e) => setNewDeckTitle(e.target.value)}
-              placeholder="Neues leeres Deck..."
-              style={{ flex: 1, padding: '12px 14px', borderRadius: radius, border: cardBorder, background: '#fff', color: '#2d1b2d', fontSize: '15px' }}
+          {/* Manuelles Deck erstellen – mit schlafendem Capybara auf der oberen Kante */}
+          <div style={{ position: 'relative', marginBottom: '22px' }}>
+            <img 
+              src="/decorations/capybara-sleep.svg" 
+              alt="" 
+              style={{ width: '36px', position: 'absolute', left: '18px', top: '-16px', pointerEvents: 'none', zIndex: 2 }} 
             />
-            <button type="submit" style={{ padding: '12px 16px', borderRadius: radius, border: cardBorder, background: '#bae6fd', color: '#2d1b2d', fontWeight: 700, cursor: 'pointer' }}>
-              + Deck
-            </button>
-          </form>
+            <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px' }}>
+              <input
+                type="text"
+                value={newDeckTitle}
+                onChange={(e) => setNewDeckTitle(e.target.value)}
+                placeholder="Neues leeres Deck..."
+                style={{ flex: 1, padding: '12px 14px', borderRadius: radius, border: cardBorder, background: '#fff', color: '#2d1b2d', fontSize: '15px' }}
+              />
+              <button type="submit" style={{ padding: '12px 16px', borderRadius: radius, border: cardBorder, background: '#bae6fd', color: '#2d1b2d', fontWeight: 700, cursor: 'pointer' }}>
+                + Deck
+              </button>
+            </form>
+          </div>
 
-          {/* KI Deck Generator mit sitzendem Capybara oben rechts auf der Kante */}
+          {/* KI Deck Generator – mit sitzendem Capybara in der rechten unteren Ecke */}
           {aiEnabled && (
             <div style={{ position: 'relative', marginBottom: '20px' }}>
-              <img 
-                src="/decorations/capybara-sit.svg" 
-                alt="" 
-                style={{ width: '38px', position: 'absolute', right: '14px', top: '-27px', pointerEvents: 'none', zIndex: 2 }} 
-              />
               <form onSubmit={handleGenerateDeck} style={{ background: '#fce7f3', padding: '14px', borderRadius: radius, border: cardBorder, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#9d174d' }}>✨ Deck per KI erstellen (gemini-3.8-flash)</div>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -516,6 +513,11 @@ export default function App() {
                   {isGenerating ? 'Warte auf Google API (max 30s)...' : '✨ KI-Deck erzeugen'}
                 </button>
               </form>
+              <img 
+                src="/decorations/capybara-sit.svg" 
+                alt="" 
+                style={{ width: '38px', position: 'absolute', right: '-4px', bottom: '-12px', pointerEvents: 'none', zIndex: 2 }} 
+              />
             </div>
           )}
 
@@ -545,7 +547,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Deck-Liste */}
+          {/* Deck-Liste – schlafendes Capybara oben rechts auf der Linie */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {decks.map((deck) => {
               const count = cards.filter((c) => c.deckId === deck.id).length;
@@ -560,7 +562,7 @@ export default function App() {
                   <img 
                     src="/decorations/capybara-sleep.svg" 
                     alt="" 
-                    style={{ width: '38px', position: 'absolute', right: '18px', top: '-15px', pointerEvents: 'none' }} 
+                    style={{ width: '38px', position: 'absolute', right: '24px', top: '-16px', pointerEvents: 'none' }} 
                   />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span style={{ fontWeight: 700, fontSize: '18px' }}>{deck.title}</span>
