@@ -394,7 +394,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Header ohne störende Biene über dem Text */}
+      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '14px', position: 'relative' }}>
         <button onClick={() => setView('settings')} style={{ background: 'transparent', border: 'none', color: '#6b4f68', fontSize: '13px', cursor: 'pointer', fontWeight: 600 }}>
           🌸 ⚙️ Einstellungen {aiEnabled ? (apiKey ? '(KI Ein)' : '(Kein Key)') : '(KI Aus)'}
@@ -443,7 +443,7 @@ export default function App() {
         </div>
       )}
 
-{view === 'decks' && (
+      {view === 'decks' && (
         <div>
           {/* Titel mit Biene links und sitzendem Capybara rechts */}
           <div style={{ position: 'relative', textAlign: 'center', marginBottom: '22px' }}>
@@ -460,12 +460,12 @@ export default function App() {
             />
           </div>
 
-          {/* Manuelles Deck erstellen – mit schlafendem Capybara auf der oberen Kante */}
+          {/* Manuelles Deck erstellen – mit schlafendem Capybara exakt auf der Kante */}
           <div style={{ position: 'relative', marginBottom: '22px' }}>
             <img 
               src="/decorations/capybara-sleep.svg" 
               alt="" 
-              style={{ width: '36px', position: 'absolute', left: '18px', top: '-16px', pointerEvents: 'none', zIndex: 2 }} 
+              style={{ width: '36px', position: 'absolute', left: '18px', top: '-21px', pointerEvents: 'none', zIndex: 2 }} 
             />
             <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px' }}>
               <input
@@ -516,7 +516,7 @@ export default function App() {
               <img 
                 src="/decorations/capybara-sit.svg" 
                 alt="" 
-                style={{ width: '38px', position: 'absolute', right: '-4px', bottom: '-12px', pointerEvents: 'none', zIndex: 2 }} 
+                style={{ width: '38px', position: 'absolute', right: '-4px', bottom: '-4px', pointerEvents: 'none', zIndex: 2 }} 
               />
             </div>
           )}
@@ -547,7 +547,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Deck-Liste – schlafendes Capybara oben rechts auf der Linie */}
+          {/* Deck-Liste */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {decks.map((deck) => {
               const count = cards.filter((c) => c.deckId === deck.id).length;
@@ -562,7 +562,7 @@ export default function App() {
                   <img 
                     src="/decorations/capybara-sleep.svg" 
                     alt="" 
-                    style={{ width: '38px', position: 'absolute', right: '24px', top: '-16px', pointerEvents: 'none' }} 
+                    style={{ width: '38px', position: 'absolute', right: '24px', top: '-21px', pointerEvents: 'none' }} 
                   />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span style={{ fontWeight: 700, fontSize: '18px' }}>{deck.title}</span>
