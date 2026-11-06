@@ -74,6 +74,13 @@ export default function App() {
   const [view, setView] = useState<'decks' | 'edit' | 'study' | 'settings'>('decks');
   const [activeDeckId, setActiveDeckId] = useState<string>('d1');
 
+  // PWA-Installationshinweis
+  const isInstalledPwa = typeof window !== 'undefined' && (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (window.navigator as any).standalone === true
+  );
+  const [showInstallPrompt, setShowInstallPrompt] = useState(!isInstalledPwa);
+
   // Deck-Erstellung & Import
   const [newDeckTitle, setNewDeckTitle] = useState('');
   const [aiPrompt, setAiPrompt] = useState('');
@@ -291,6 +298,22 @@ export default function App() {
     }
   };
 
+  const handleExportDeck = (deckId: string) => {
+    const cardsToExport = cards
+      .filter((c) => c.deckId === deckId)
+      .map(({ frontText, backText, icon }) => ({ frontText, backText, icon }));
+
+    if (cardsToExport.length === 0) {
+      alert('Dieses Deck enthält noch keine Karten zum Exportieren.');
+      return;
+    }
+
+    const jsonStr = JSON.stringify(cardsToExport, null, 2);
+    navigator.clipboard.writeText(jsonStr)
+      .then(() => alert('Deck-Karten als JSON in die Zwischenablage kopiert! Kann nun verschickt oder per Importer eingefügt werden.'))
+      .catch(() => alert('Kopieren fehlgeschlagen. Bitte Berechtigung prüfen.'));
+  };
+
   const handleDeleteDeck = (id: string) => {
     setDecks(decks.filter((d) => d.id !== id));
     setCards(cards.filter((c) => c.deckId !== id));
@@ -374,6 +397,19 @@ export default function App() {
   return (
     <div style={{ maxWidth: '420px', margin: '0 auto', padding: '16px', fontFamily: 'system-ui, sans-serif', color: '#f8fafc', backgroundColor: '#0f172a', minHeight: '100vh', boxSizing: 'border-box' }}>
       
+      {showInstallPrompt && (
+        <div style={{ background: '#1e293b', border: '1px solid #3b82f6', borderRadius: '12px', padding: '10px 14px', marginBottom: '12px', fontSize: '13px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <strong style={{ color: '#38bdf8' }}>Als App installieren:</strong><br />
+            <span style={{ color: '#94a3b8', fontSize: '12px' }}>
+              iOS: Teilen-Icon ➔ <i>Zum Home-Bildschirm</i><br />
+              Android: Dreipunkt-Menü ➔ <i>App installieren</i>
+            </span>
+          </div>
+          <button onClick={() => setShowInstallPrompt(false)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '16px', cursor: 'pointer', paddingLeft: '8px' }}>✕</button>
+        </div>
+      )}
+
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
         <button onClick={() => setView('settings')} style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '13px', cursor: 'pointer' }}>
           ⚙️ Einstellungen {aiEnabled ? (apiKey ? '(KI Ein)' : '(Kein Key)') : '(KI Aus)'}
@@ -519,6 +555,13 @@ export default function App() {
                       style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #475569', background: 'transparent', color: '#e2e8f0', cursor: 'pointer' }}
                     >
                       Karten ({count})
+                    </button>
+                    <button
+                      onClick={() => handleExportDeck(deck.id)}
+                      title="Deck als JSON kopieren"
+                      style={{ padding: '10px', borderRadius: '8px', border: '1px solid #475569', background: 'transparent', color: '#cbd5e1', cursor: 'pointer' }}
+                    >
+                      📤
                     </button>
                     {decks.length > 1 && (
                       <button
