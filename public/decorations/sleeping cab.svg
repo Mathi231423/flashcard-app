@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 340" width="100%" height="100%">
+  <!-- Schatten am Boden -->
+  <ellipse cx="240" cy="285" rx="180" ry="18" fill="#b8a7b3" />
+
+  <!-- Hauptkörper & Kopf (flache Unterkante, runder Rücken, sanfter Schnauzenbogen) -->
+  <path d="M 60 210 C 50 145 105 75 190 75 C 275 75 320 135 375 158 C 430 180 445 210 440 248 C 435 278 405 280 375 280 L 105 280 C 75 280 62 250 60 210 Z" fill="#f79c5a" stroke="#48182f" stroke-width="8" stroke-linejoin="round" />
+
+  <!-- Dunkler Schnauzenbereich vorne -->
+  <path d="M 352 149 C 392 165 435 188 440 248 C 435 278 405 280 375 280 L 350 280 C 352 235 342 185 352 149 Z" fill="#cf7945" />
+
+  <!-- Dunkle Fellflecken Wange -->
+  <path d="M 268 185 C 265 168 295 165 318 182 C 328 192 322 215 296 220 C 278 222 268 205 268 185 Z" fill="#d9824c" />
+  <ellipse cx="286" cy="180" rx="6" ry="4" fill="#ffffff" opacity="0.45" transform="rotate(-15 286 180)" />
+
+  <!-- Hinteres Bein & Pfote -->
+  <path d="M 125 198 C 160 205 168 238 162 260 C 158 276 142 278 135 278" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <path d="M 160 245 C 172 245 180 258 178 270 C 176 280 166 280 156 280 Z" fill="#d9824c" stroke="#48182f" stroke-width="7" stroke-linejoin="round" />
+
+  <!-- Vorderpfote & Armfalte -->
+  <path d="M 248 220 L 298 258" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <path d="M 282 258 C 292 246 312 250 314 270 C 314 280 300 280 282 280 Z" fill="#b36838" stroke="#48182f" stroke-width="7" stroke-linejoin="round" />
+
+  <!-- Ohr (charakteristische Bohne mit dunkler Innenfläche) -->
+  <path d="M 270 148 C 275 130 250 128 232 148 C 220 162 234 178 255 174 C 272 170 270 156 270 148 Z" fill="#b36838" stroke="#48182f" stroke-width="8" stroke-linejoin="round" />
+
+  <!-- Schlafendes Auge (geschlossene Mondsichel) -->
+  <path d="M 296 177 C 302 192 318 192 322 186" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Schnauze: Nüstern & Mundlinie -->
+  <!-- Linkes Nasenloch -->
+  <path d="M 374 198 C 388 208 398 214 400 210" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <!-- Rechtes Nasenloch -->
+  <path d="M 434 198 C 426 208 420 214 422 216" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <!-- Mundspalte (Y-Form nach unten) -->
+  <path d="M 378 266 C 398 264 414 256 418 240 L 420 220" fill="none" stroke="#48182f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Schraffur-Striche am Rücken -->
+  <line x1="96" y1="130" x2="88" y2="144" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <line x1="82" y1="150" x2="74" y2="162" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+  <line x1="96" y1="154" x2="88" y2="168" stroke="#48182f" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Schlaf-Symbole (gefüllte Block-ZZZ im Schriftstil der Vorlage) -->
+  <g fill="#48182f">
+    <!-- Kleines z -->
+    <polygon points="340,118 360,118 344,142 364,142 362,148 336,148 352,124 338,124" />
+    <!-- Mittleres z -->
+    <polygon points="378,82 404,82 384,112 408,112 405,119 372,119 392,89 376,89" />
+    <!-- Großes z -->
+    <polygon points="424,42 458,42 432,80 464,80 460,88 418,88 444,50 422,50" />
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 130" width="100%" height="100%">
+  <defs>
+    <!-- Weicher Farbverlauf für die Wangenröte -->
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fca5a5" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#fca5a5" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <g id="kawaii-cat">
+    <!-- Ohren Hinten / Umriss -->
+    <!-- Linkes Ohr -->
+    <path d="M 45 42 L 32 12 C 48 10 58 20 62 30 Z" fill="#f3c69d" stroke="#3d271d" stroke-width="3.5" stroke-linejoin="round" />
+    <path d="M 42 36 L 36 18 C 46 17 52 23 55 28 Z" fill="#fbcfe8" />
+
+    <!-- Rechtes Ohr -->
+    <path d="M 115 42 L 128 12 C 112 10 102 20 98 30 Z" fill="#f3c69d" stroke="#3d271d" stroke-width="3.5" stroke-linejoin="round" />
+    <path d="M 118 36 L 124 18 C 114 17 108 23 105 28 Z" fill="#fbcfe8" />
+
+    <!-- Kopf-Basis (Cremeweiß) -->
+    <ellipse cx="80" cy="62" rx="54" ry="44" fill="#fffdfa" stroke="#3d271d" stroke-width="3.5" />
+
+    <!-- Fellflecken (Zweifarbiges Muster: links & rechts helles Orange-Beige) -->
+    <!-- Linker Fleck -->
+    <path d="M 32 46 C 30 64 42 82 56 82 C 64 82 68 70 66 50 C 64 36 50 30 40 32 Z" fill="#f3c69d" />
+    <!-- Rechter Fleck -->
+    <path d="M 128 46 C 130 64 118 82 104 82 C 96 82 92 70 94 50 C 96 36 110 30 120 32 Z" fill="#f3c69d" />
+
+    <!-- Schnurrhaare links -->
+    <line x1="16" y1="57" x2="35" y2="60" stroke="#3d271d" stroke-width="2.8" stroke-linecap="round" />
+    <line x1="17" y1="67" x2="36" y2="66" stroke="#3d271d" stroke-width="2.8" stroke-linecap="round" />
+
+    <!-- Schnurrhaare rechts -->
+    <line x1="144" y1="57" x2="125" y2="60" stroke="#3d271d" stroke-width="2.8" stroke-linecap="round" />
+    <line x1="143" y1="67" x2="124" y2="66" stroke="#3d271d" stroke-width="2.8" stroke-linecap="round" />
+
+    <!-- Wangenröte -->
+    <ellipse cx="52" cy="71" rx="8" ry="5.5" fill="url(#blush)" />
+    <ellipse cx="108" cy="71" rx="8" ry="5.5" fill="url(#blush)" />
+
+    <!-- Augen (Dunkle Knopflinsen) -->
+    <circle cx="61" cy="61" r="5" fill="#3d271d" />
+    <circle cx="99" cy="61" r="5" fill="#3d271d" />
+
+    <!-- Schnäuzchen & Mund (Typisches W-Lächeln) -->
+    <path d="M 73 69 Q 80 77 80 70 Q 80 77 87 69" fill="none" stroke="#3d271d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Pfoten (Liegen über der Kante auf) -->
+    <!-- Linke Pfote -->
+    <g transform="translate(42, 86)">
+      <path d="M 0 10 C 0 -4 20 -4 20 10 C 20 18 0 18 0 10 Z" fill="#fffdfa" stroke="#3d271d" stroke-width="3.2" />
+      <!-- Zehen-Einkerbungen -->
+      <line x1="7" y1="5" x2="7" y2="12" stroke="#3d271d" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="5" x2="13" y2="12" stroke="#3d271d" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Rechte Pfote -->
+    <g transform="translate(98, 86)">
+      <path d="M 0 10 C 0 -4 20 -4 20 10 C 20 18 0 18 0 10 Z" fill="#fffdfa" stroke="#3d271d" stroke-width="3.2" />
+      <!-- Zehen-Einkerbungen -->
+      <line x1="7" y1="5" x2="7" y2="12" stroke="#3d271d" stroke-width="2" stroke-linecap="round" />
+      <line x1="13" y1="5" x2="13" y2="12" stroke="#3d271d" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>
