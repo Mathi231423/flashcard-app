@@ -394,13 +394,8 @@ export default function App() {
         </div>
       )}
 
-      {/* Header mit Bienchen */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '10px', position: 'relative' }}>
-        <img 
-          src="/decorations/bee.svg" 
-          alt="" 
-          style={{ width: '22px', height: '22px', position: 'absolute', right: '170px', top: '-4px', pointerEvents: 'none' }} 
-        />
+      {/* Header ohne störende Biene über dem Text */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '14px', position: 'relative' }}>
         <button onClick={() => setView('settings')} style={{ background: 'transparent', border: 'none', color: '#6b4f68', fontSize: '13px', cursor: 'pointer', fontWeight: 600 }}>
           🌸 ⚙️ Einstellungen {aiEnabled ? (apiKey ? '(KI Ein)' : '(Kein Key)') : '(KI Aus)'}
         </button>
@@ -450,23 +445,28 @@ export default function App() {
 
       {view === 'decks' && (
         <div>
-          {/* Titel mit schlafendem Capybara links & Katze rechts */}
-          <div style={{ position: 'relative', textAlign: 'center', marginBottom: '14px' }}>
+          {/* Titel mit Biene frei links oben und zwei Capybaras */}
+          <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
+            <img 
+              src="/decorations/bee.svg" 
+              alt="" 
+              style={{ width: '22px', height: '22px', position: 'absolute', left: '10px', top: '-14px', pointerEvents: 'none' }} 
+            />
             <img 
               src="/decorations/capybara-sleep.svg" 
               alt="" 
-              style={{ width: '42px', position: 'absolute', left: '16px', bottom: '0px', pointerEvents: 'none' }} 
+              style={{ width: '38px', position: 'absolute', left: '36px', bottom: '-2px', pointerEvents: 'none' }} 
             />
-            <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 700 }}>Meine Decks</h2>
+            <h2 style={{ margin: 0, fontSize: '26px', fontWeight: 700 }}>Meine Decks</h2>
             <img 
-              src="/decorations/cat-peek.svg" 
+              src="/decorations/capybara-sit.svg" 
               alt="" 
-              style={{ width: '32px', position: 'absolute', right: '36px', bottom: '-4px', pointerEvents: 'none' }} 
+              style={{ width: '34px', position: 'absolute', right: '32px', bottom: '-4px', pointerEvents: 'none' }} 
             />
           </div>
 
           {/* Manuelles Deck erstellen */}
-          <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px', marginBottom: '14px', position: 'relative' }}>
+          <form onSubmit={handleCreateDeck} style={{ display: 'flex', gap: '8px', marginBottom: '22px' }}>
             <input
               type="text"
               value={newDeckTitle}
@@ -477,16 +477,16 @@ export default function App() {
             <button type="submit" style={{ padding: '12px 16px', borderRadius: radius, border: cardBorder, background: '#bae6fd', color: '#2d1b2d', fontWeight: 700, cursor: 'pointer' }}>
               + Deck
             </button>
-            <img 
-              src="/decorations/cat-paw.svg" 
-              alt="" 
-              style={{ width: '22px', position: 'absolute', right: '68px', bottom: '-10px', pointerEvents: 'none' }} 
-            />
           </form>
 
-          {/* KI Deck Generator Kachel mit sitzendem Capybara rechts */}
+          {/* KI Deck Generator mit sitzendem Capybara oben rechts auf der Kante */}
           {aiEnabled && (
-            <div style={{ position: 'relative', marginBottom: '14px' }}>
+            <div style={{ position: 'relative', marginBottom: '20px' }}>
+              <img 
+                src="/decorations/capybara-sit.svg" 
+                alt="" 
+                style={{ width: '38px', position: 'absolute', right: '14px', top: '-27px', pointerEvents: 'none', zIndex: 2 }} 
+              />
               <form onSubmit={handleGenerateDeck} style={{ background: '#fce7f3', padding: '14px', borderRadius: radius, border: cardBorder, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#9d174d' }}>✨ Deck per KI erstellen (gemini-3.8-flash)</div>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -516,21 +516,11 @@ export default function App() {
                   {isGenerating ? 'Warte auf Google API (max 30s)...' : '✨ KI-Deck erzeugen'}
                 </button>
               </form>
-              <img 
-                src="/decorations/capybara-sit.svg" 
-                alt="" 
-                style={{ width: '42px', position: 'absolute', right: '-8px', bottom: '-12px', pointerEvents: 'none' }} 
-              />
             </div>
           )}
 
-          {/* JSON Importer mit kleiner Biene */}
-          <div style={{ marginBottom: '16px', position: 'relative' }}>
-            <img 
-              src="/decorations/bee.svg" 
-              alt="" 
-              style={{ width: '20px', height: '20px', position: 'absolute', right: '48px', top: '-10px', pointerEvents: 'none', zIndex: 2 }} 
-            />
+          {/* JSON Importer */}
+          <div style={{ marginBottom: '24px', position: 'relative' }}>
             <button
               onClick={() => setShowImporter(!showImporter)}
               style={{ width: '100%', padding: '10px 14px', borderRadius: radius, border: cardBorder, background: '#fff', color: '#2d1b2d', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', display: 'flex', justifyContent: 'space-between' }}
@@ -556,7 +546,7 @@ export default function App() {
           </div>
 
           {/* Deck-Liste */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {decks.map((deck) => {
               const count = cards.filter((c) => c.deckId === deck.id).length;
               const due = cards.filter((c) => c.deckId === deck.id && c.level < 3).length;
@@ -565,13 +555,18 @@ export default function App() {
                   <img 
                     src="/decorations/cat-peek.svg" 
                     alt="" 
-                    style={{ width: '30px', position: 'absolute', left: '10px', top: '-18px', pointerEvents: 'none' }} 
+                    style={{ width: '32px', position: 'absolute', left: '16px', top: '-17px', pointerEvents: 'none' }} 
+                  />
+                  <img 
+                    src="/decorations/capybara-sleep.svg" 
+                    alt="" 
+                    style={{ width: '38px', position: 'absolute', right: '18px', top: '-15px', pointerEvents: 'none' }} 
                   />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span style={{ fontWeight: 700, fontSize: '18px' }}>{deck.title}</span>
                     <span style={{ fontSize: '12px', color: '#0369a1', fontWeight: 600 }}>{count} Karten ({due} offen)</span>
                   </div>
-                  <div style={{ display: 'flex', gap: '8px', position: 'relative' }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
                     <button
                       onClick={() => startStudy(deck.id)}
                       disabled={count === 0}
@@ -600,11 +595,6 @@ export default function App() {
                         🗑
                       </button>
                     )}
-                    <img 
-                      src="/decorations/capybara-sleep.svg" 
-                      alt="" 
-                      style={{ width: '34px', position: 'absolute', left: '42%', bottom: '-10px', pointerEvents: 'none' }} 
-                    />
                   </div>
                 </div>
               );
@@ -705,10 +695,9 @@ export default function App() {
         </div>
       )}
 
-      {/* Study-View mit Deko-Tierchen an den Rändern */}
       {view === 'study' && activeDeck && (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
             <button onClick={() => setView('decks')} style={{ padding: '8px 14px', borderRadius: '14px', border: cardBorder, background: '#fff', color: '#2d1b2d', fontWeight: 700, cursor: 'pointer' }}>
               ← Decks
             </button>
@@ -717,7 +706,7 @@ export default function App() {
               <img 
                 src="/decorations/cat-peek.svg" 
                 alt="" 
-                style={{ width: '28px', position: 'absolute', top: '-18px', left: '14px', pointerEvents: 'none' }} 
+                style={{ width: '28px', position: 'absolute', top: '-16px', left: '14px', pointerEvents: 'none' }} 
               />
               <span style={{ fontSize: '13px', background: '#fff', padding: '6px 12px', borderRadius: '14px', border: cardBorder, fontWeight: 700 }}>
                 Rest: {queueSnapshot.length}
@@ -727,17 +716,11 @@ export default function App() {
 
           {currentCard ? (
             <>
-              {/* Große Vokabel-Lernkarte mit Capybara oben mittig */}
               <div style={{ background: '#ffe4e6', borderRadius: '24px', minHeight: '210px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '24px', textAlign: 'center', border: cardBorder, position: 'relative' }}>
                 <img 
                   src="/decorations/capybara-sit.svg" 
                   alt="" 
-                  style={{ width: '48px', position: 'absolute', top: '-30px', pointerEvents: 'none' }} 
-                />
-                <img 
-                  src="/decorations/cat-peek.svg" 
-                  alt="" 
-                  style={{ width: '30px', position: 'absolute', right: '4px', top: '-14px', pointerEvents: 'none' }} 
+                  style={{ width: '44px', position: 'absolute', top: '-29px', pointerEvents: 'none' }} 
                 />
 
                 <div style={{ fontSize: '13px', color: '#881337', marginBottom: '14px', fontWeight: 700 }}>
@@ -764,12 +747,7 @@ export default function App() {
               </div>
 
               {checkResult === null ? (
-                <form onSubmit={handleCheck} style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px', position: 'relative' }}>
-                  <img 
-                    src="/decorations/cat-paw.svg" 
-                    alt="" 
-                    style={{ width: '24px', position: 'absolute', left: '-8px', bottom: '48px', pointerEvents: 'none' }} 
-                  />
+                <form onSubmit={handleCheck} style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <input
                       type="text"
@@ -822,7 +800,6 @@ export default function App() {
             </div>
           )}
 
-          {/* Live-Warteschlange mit Biene */}
           <div style={{ marginTop: '28px', borderTop: '2px dashed #cbd5e1', paddingTop: '14px', position: 'relative' }}>
             <img 
               src="/decorations/bee.svg" 
