@@ -5,11 +5,10 @@
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
-  "icons": [
+ "icons": [
     {
-      "src": "/vite.svg",
-      "sizes": "192x192",
+      "src": "/icon.svg",
+      "sizes": "any",
       "type": "image/svg+xml"
     }
   ]
-}
